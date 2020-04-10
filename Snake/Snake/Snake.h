@@ -10,21 +10,17 @@ class Snake
 public:
 	Snake();
 
-	// Функции для проверки совпадений
-	bool isHead(const std::pair<int, int> &head) const;
-	bool isBody(const std::pair<int, int> &point) const;
-	bool isUroboros(const std::pair<int, int> &head) const;
+	bool isHead(const std::pair<int, int> &head) const; // Head check
+	bool isBody(const std::pair<int, int> &point) const; // Body check
+	bool isUroboros(const std::pair<int, int> &head) const; // Tail check
 
-	// Функции для управления внутренними объектами
-	void addNewBodyPoint(const std::pair<int, int> &newHead); // Уведичиваем размер змейки
-	void moveSnake(const std::pair<int, int> &newHead); // Двигаем тело змейки
-	void restart(); // Удаляем тело змейки
+	void addNewBodyPoint(const std::pair<int, int> &newHead); // Body size increase
+	void moveSnake(const std::pair<int, int> &newHead); // Move the body
+	void restart(); // Clean the body
 
-	// Функция для получения координат головы змейки
-	std::pair<int, int> getHead();
+	std::pair<int, int> getHead(); // Get head coordinates
 
 private:
-	// Мембер
-	std::forward_list<Point> m_body;
+	std::forward_list<Point> m_body; // Private member snake body
 };
 

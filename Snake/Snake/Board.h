@@ -13,7 +13,8 @@ class Board
 {
 public:
 	Board();
-	// Перегружаем оператор () чтобы при старте потока запустить стартовую функцию "run"
+
+	// Overload the operator to call the function "Run" at the start of the thread
 	void operator()(std::atomic_int &keyPressed)
 	{
 		run(keyPressed);
@@ -21,35 +22,29 @@ public:
 	void run(std::atomic_int &keyPressed);
 
 private:
-	// Функции внутренней бизнеслогики
-	void logic();
-	void demo();
-	void drawBoard();
-	void drawGameStatus();
-	void menu();
-	void restartGame();
-	void moveSnake();
-	void autoMove();
-	void checkGameOver();
-	void checkFood();
-	void keyPressedToGameStatus(std::atomic_int &keyPressed);
-	void keyPressedToMovement(const std::atomic_int &keyPressed);
+	void logic(); // Business logic games
+	void demo(); // Demo mode
+	void drawBoard(); // Draw a board in the console
+	void drawGameStatus(); // Draw the game status in the console
+	void menu(); // Draw a menu in the console
+	void restartGame(); // Reset object parameters to initial
+	void moveSnake(); // Move the body of the snake on the board
+	void autoMove(); // Automatic movement of the body of a snake on a board
+	void checkGameOver(); // Check the conditions for ending the game
+	void checkFood(); // Check the coordinates for the presence of the object food
+	void keyPressedToGameStatus(std::atomic_int &keyPressed); // Check the user-pressed key for the corresponding game status
+	void keyPressedToMovement(const std::atomic_int &keyPressed); // Check the key pressed by the user for the corresponding direction of movement of the snake
 
-	bool checkWalls();
+	bool checkWalls(); // Checking the boundaries of the board
 
-	// Мемберы:
-	// Параметры игровой доски
-	const int m_width = 40;
-	const int m_height = 30;
-	// Текущий счёт
-	int m_score = 0;
-	// Частота перерисовки игрового поля и соответственно скорость игры
-	const int m_defaultDelay = 250;
-	int m_totalDelay = m_defaultDelay;
+	const int m_width = 40; // Default board width
+	const int m_height = 30; // Default board height
 
-	// Объект еды
-	Food m_food;
-	// Объект змейки
-	Snake m_snake;
+	const int m_defaultDelay = 250; // Default board update delay
+	int m_totalDelay = m_defaultDelay; // Total board update delay and game speed
+	int m_score = 0; // Total score
+
+	Food m_food; // Class Food
+	Snake m_snake; // Class Snake
 };
 

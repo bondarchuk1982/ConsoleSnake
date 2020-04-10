@@ -10,32 +10,30 @@
 
 using namespace std;
 
-// Безопасная межпотоковая переменная отвечающая за индекс нажатой пользователем клавиши
+// Key index for safe transfer between threads
 std::atomic_int keyPressed = 0;
 
-// Функция слежения за нажатиями пользователем клавиш
+// Waiting for the user to press a key
 void input(std::atomic_int &keyPressed)
 {
-	while (keyPressed != 120) // В случае нажатия "x" завершаем работу
+	while (keyPressed != 120) // Key "x" for exit
 	{
-		if (_kbhit()) { // Системное событие нажатия пользователем клавиши
-			keyPressed = _getch(); // Получаем индекс нажатой пользователем клавиши
+		if (_kbhit()) { // User presed key
+			keyPressed = _getch(); // Get key index
 		}
-		std::this_thread::sleep_for(std::chrono::milliseconds(10)); // Усыпляем текущий поток на 10 миллисекунд
+		std::this_thread::sleep_for(std::chrono::milliseconds(10)); // Sleep thread
 	}
 }
 
 int main()
 {
-	// Настройки окна консоли.
+	// Resize console window
 	system("MODE CON: COLS=100 LINES=50");
 
-	// Отслеживаем нажатие клавишь пользователем в отдельном потоке.
-	std::thread inputThread(input, std::ref(keyPressed));
-	inputThread.detach(); // Отпускаем поток в свободное плавание
+	std::thread inputThread(input, std::ref(keyPressed)); // Thread for tracking user actions
+	inputThread.detach(); // Detach the thread
 
-	// Объект игровой доски отправляем в отдельный поток и ждём пока он завершится.
-	Board board;
-	std::thread boardThread(board, std::ref(keyPressed));
-	boardThread.join(); // Ждём завершения работы потока
+	Board board; // Game board
+	std::thread boardThread(board, std::ref(keyPressed)); // Thread for Game board
+	boardThread.join(); // Waiting for the completion of the thread
 }

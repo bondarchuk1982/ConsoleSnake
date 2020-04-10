@@ -9,12 +9,10 @@ class Food : public Point
 {
 public:
 	Food();
-	// Функции для управления внутренними объектами
-	void setMaximumBoundaries(const std::pair<int, int> &maxSize);
-	void nextRandomPoint(const Snake &snake);
+	void setMaximumBoundaries(const std::pair<int, int> &maxSize); // Set maximum boundaries board
+	void nextRandomPoint(const Snake &snake); // Generate random coordinates
 
 private:
-	// Мемберы
-	std::pair<int, int> m_boundaries;
+	std::pair<int, int> m_boundaries; // Private member for boundaries
 };
 

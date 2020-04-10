@@ -1,7 +1,7 @@
 #pragma once
 
 using namespace std;
-// Перечисление статуса игры
+// Status game
 enum GameStatus {
 	GameMenu,
 	GameStart,
@@ -9,7 +9,7 @@ enum GameStatus {
 	GameDemo,
 	Exit
 } gameStatus;
-// Перечисления длвижения змейки
+// Movement mode
 enum Movement {
 	Stop,
 	Left,
