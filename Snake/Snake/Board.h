@@ -44,7 +44,8 @@ private:
 	// Текущий счёт
 	int m_score = 0;
 	// Частота перерисовки игрового поля и соответственно скорость игры
-	int m_delay = 200;
+	const int m_defaultDelay = 250;
+	int m_totalDelay = m_defaultDelay;
 
 	// Объект еды
 	Food m_food;

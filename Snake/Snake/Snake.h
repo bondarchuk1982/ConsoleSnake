@@ -3,6 +3,8 @@
 #include <forward_list>
 #include <algorithm>
 
+#include "Point.h"
+
 class Snake
 {
 public:
@@ -14,15 +16,15 @@ public:
 	bool isUroboros(const std::pair<int, int> &head) const;
 
 	// Функции для управления внутренними объектами
-	void addNewBodyPoint(const std::pair<int, int> &newHead);
-	void moveSnake(const std::pair<int, int> &newHead);
-	void restart();
+	void addNewBodyPoint(const std::pair<int, int> &newHead); // Уведичиваем размер змейки
+	void moveSnake(const std::pair<int, int> &newHead); // Двигаем тело змейки
+	void restart(); // Удаляем тело змейки
 
-	// Функция для получения внутреннего объекта
+	// Функция для получения координат головы змейки
 	std::pair<int, int> getHead();
 
 private:
 	// Мембер
-	std::forward_list<std::pair<int, int>> m_body;
+	std::forward_list<Point> m_body;
 };
 

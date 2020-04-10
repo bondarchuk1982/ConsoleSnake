@@ -3,7 +3,7 @@
 
 Board::Board()
 {
-	m_food.setMaximumPoint(std::pair<int, int>(m_width, m_height));
+	m_food.setMaximumBoundaries(std::pair<int, int>(m_width, m_height));
 }
 
 // При старте потока запускаем эту функцию
@@ -30,7 +30,7 @@ void Board::run(std::atomic_int &keyPressed)
 			drawBoard();
 		}
 
-		std::this_thread::sleep_for(std::chrono::milliseconds(m_delay));
+		std::this_thread::sleep_for(std::chrono::milliseconds(m_totalDelay));
 	}
 }
 // Функция основной логики игры
@@ -56,7 +56,7 @@ void Board::drawBoard()
 			else if (y == 0 && x == m_width) cout << "#  SCORE: " << m_score;
 			else if (x == m_width) cout << "#";
 			else if (y == 0 || y == m_height) cout << "#";
-			else if (x == m_food.getFoodX() && y == m_food.getFoodY()) cout << "F";
+			else if (x == m_food.getPointX() && y == m_food.getPointY()) cout << "F";
 			else if (m_snake.isHead(std::pair<int, int>(x, y))) cout << "O";
 			else if (m_snake.isBody(std::pair<int, int>(x, y))) cout << "o";
 			else cout << " ";
@@ -98,12 +98,11 @@ void Board::menu()
 // Функция сбрасывания стартовых параметров для рестарта игры
 void Board::restartGame()
 {
-	m_food.foodNextRandomPoint();
-
 	m_snake.restart();
 	m_snake.addNewBodyPoint(std::pair<int, int>(m_width / 2, m_height / 2));
+	m_food.nextRandomPoint(m_snake);
 
-	m_delay = 200;
+	m_totalDelay = m_defaultDelay;
 	m_score = 0;
 }
 // Функция движения змейки
@@ -127,7 +126,7 @@ void Board::moveSnake()
 void Board::autoMove()
 {
 	const auto &head = m_snake.getHead();
-	const auto &food = m_food.getFoodPoint();
+	const auto &food = m_food.getPoint();
 	
 	if (food.first >= head.first && food.second <= head.second) {
 		std::abs(head.first - food.first) >= std::abs(head.second - food.second) ?
@@ -153,13 +152,13 @@ void Board::autoMove()
 // Функция проверки поедания еды змейкой
 void Board::checkFood()
 {
-	if (m_snake.isHead(m_food.getFoodPoint())) {
+	if (m_snake.isHead(m_food.getPoint())) {
 		++m_score;
-		m_snake.addNewBodyPoint(m_food.getFoodPoint());
-		m_food.foodNextRandomPoint();
+		m_snake.addNewBodyPoint(m_food.getPoint());
+		m_food.nextRandomPoint(m_snake);
 
-		if (m_delay > 50) {
-			m_delay -= 5;
+		if (m_totalDelay > 25) {
+			m_totalDelay -= 5;
 		}
 	}
 }

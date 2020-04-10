@@ -2,23 +2,19 @@
 #include <utility>
 #include <ctime>
 
-class Food
+#include "Point.h"
+#include "Snake.h"
+
+class Food : public Point
 {
 public:
 	Food();
 	// Функции для управления внутренними объектами
-	void setMaximumPoint(const std::pair<int, int> &maxPoint);
-	void foodNextRandomPoint();
-
-	// Функции для доступа к внутренним объекта
-	int getFoodX() const;
-	int getFoodY() const;
-
-	std::pair<int, int> getFoodPoint() const;
+	void setMaximumBoundaries(const std::pair<int, int> &maxSize);
+	void nextRandomPoint(const Snake &snake);
 
 private:
 	// Мемберы
-	std::pair<int, int> m_point;
-	std::pair<int, int> m_maximumPoint;
+	std::pair<int, int> m_boundaries;
 };
 
